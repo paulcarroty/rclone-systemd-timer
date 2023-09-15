@@ -1,0 +1,14 @@
+# /etc/systemd/system/backup.service
+
+[Unit]
+Description=Backup service
+
+[Service]
+Type=oneshot
+ExecStart=/bin/bash -c 'TIME=$(/usr/bin/date +%%Y%%m%%d-%%H%%m); \
+/usr/bin/zstd --ultra -22 /path/to/backup/dir -o /tmp/backup-$TIME.tar.zstd; \
+/usr/bin/rclone --progress --config /path/to/rclone.conf copy backup-$TIME.tar.zstd cloud: \
+/usr/bin/rclone --progress --config /path/to/rclone.conf delete --min-age 70d cloud: ;'
+
+[Install]
+WantedBy=multi-user.target

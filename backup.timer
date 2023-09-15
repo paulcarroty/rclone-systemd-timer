@@ -1,0 +1,13 @@
+# /etc/systemd/system/backup.timer
+
+[Unit]
+Description=Rclone systemd timer
+
+[Timer]
+OnCalendar=daily
+AccuracySec=1h
+Persistent=true
+RandomizedDelaySec=6000
+
+[Install]
+WantedBy=timers.target
